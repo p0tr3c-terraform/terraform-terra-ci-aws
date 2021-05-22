@@ -12,7 +12,14 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.15.2'
+      - run: make test_offline
+  TestComliance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: '14'
-      - run: make test_offline
+      - run: make test_compliance
+        env:
+          SNYK_TOKEN: "${{ secrets.SNYK_AUTH_TOKEN }}"

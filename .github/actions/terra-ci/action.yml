@@ -1,0 +1,16 @@
+inputs:
+  version: 
+    description: 'terra-ci release version'
+    default: 'v0.9.1'
+  checksum:
+    description: 'sha256 of release binary'
+    default: '92409f1dc25373c1bced59779367cb1491c2de7834ae3fe5f4d31af5da3d987a'
+runs:
+  using: "composite"
+  steps: 
+    - name: install terra-ci
+      run: |
+        wget -q "https://github.com/p0tr3c-terraform/terra-ci/releases/download/${{ inputs.version }}/terra-ci-linux-amd"
+        echo -n "${{ inputs.checksum }}  terra-ci-linux-amd" | sha256sum --check --status
+        chmod +x ./terra-ci-linux-amd
+      shell: bash

@@ -1,0 +1,47 @@
+name: Test - Online
+on:
+  workflow_dispatch:
+  push:
+    paths-ignore:
+      - '**.md'
+      - 'Makefile'
+      - '.github/**'
+jobs:
+  TestPlan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v2
+        with:
+          go-version: '1.15.2'
+      - uses: ./.github/actions/terra-ci
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      - run: terra-ci module test --path test/ --run TestPlan
+        env:
+          TERRA_CI_REPOSITORY_URL: "https://github.com/${{ github.repository }}.git"
+          TERRA_CI_REPOSITORY_NAME: terraform-terra-ci-aws
+          TERRA_CI_TEST_SFN_ARN: ${{ secrets.TEST_SFN_ARN }}
+  TestSnykPlan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: ./.github/actions/terra-ci
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      - run: terra-ci module test --path test/ --run TestSnykPlan
+        env:
+          TERRA_CI_REPOSITORY_URL: "https://github.com/${{ github.repository }}.git"
+          TERRA_CI_REPOSITORY_NAME: terraform-terra-ci-aws
+          TERRA_CI_TEST_SFN_ARN: ${{ secrets.TEST_SFN_ARN }}

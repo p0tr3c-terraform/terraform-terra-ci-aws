@@ -13,6 +13,14 @@
             "Value.$": "$$.Execution.Name"
           },
           {
+            "Name": "TERRA_CI_SOURCE",
+            "Value.$": "$.build.environment.terra_ci_source"
+          },
+          {
+            "Name": "TERRA_CI_LOCATION",
+            "Value.$": "$.build.environment.terra_ci_location"
+          },
+          {
             "Name": "TERRA_CI_RESOURCE",
             "Value.$": "$.build.environment.terra_ci_resource"
           }

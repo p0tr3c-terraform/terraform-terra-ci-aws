@@ -9,6 +9,8 @@ env:
     TERRA_CI_VERSION:    ${ terra_ci_version }
     TERRA_CI_CHECKSUM:   ${ terra_ci_checksum }
     %{ if terratest_iam_role != "" }TERRATEST_IAM_ROLE: ${ terratest_iam_role }%{ endif }
+  secrets-manager:
+    GITHUB_TOKEN: "TerraCiGithubToken:GITHUB_TOKEN"
 phases:
   install:
     commands:
@@ -24,9 +26,11 @@ phases:
       - mv terra-ci-linux-amd terra-ci
       - echo -n "$${TERRA_CI_CHECKSUM}  terra-ci" | sha256sum --check --status
       - chmod +x ./terra-ci; mv terra-ci /usr/local/sbin/terra-ci
-%{ if terra_ci_action == "apply" ~}
+      - git config --global url."https://oauth2:$${GITHUB_TOKEN}@github.com".insteadOf https://github.com
   pre_build:
     commands:
+      - git clone $${TERRA_CI_SOURCE} $${TERRA_CI_LOCATION} && cd $${TERRA_CI_LOCATION}
+%{ if terra_ci_action == "apply" ~}
       - if [ ! -z $TERRA_CI_ARTIFACT_ARN ]; then aws s3 cp "s3://$${TERRA_CI_ARTIFACT_ARN#arn:aws:s3:::}/$TFPLAN_NAME" "$(pwd)/$${TFPLAN_NAME}"; fi
       - if [ -z $TERRA_CI_ARTIFACT_ARN ]; then terra-ci workspace plan --local --path "$${TERRA_CI_RESOURCE}" "$(pwd)/$${TFPLAN_NAME}"; fi
   build:

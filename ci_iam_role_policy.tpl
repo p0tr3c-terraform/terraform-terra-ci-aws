@@ -27,7 +27,20 @@
         "s3:ListBucket",
         "s3:*Object"
       ]
-    }%{ endif }
+    }%{ endif },
+    {
+      "Effect": "Allow",
+      "Action": [
+        "secretsmanager:GetResourcePolicy",
+        "secretsmanager:GetSecretValue",
+        "secretsmanager:DescribeSecret",
+        "secretsmanager:ListSecretVersionIds",
+        "secretsmanager:ListSecrets"
+      ],
+      "Resource": [
+        "${ ssm_github_token_arn }"
+      ]
+    }
   ]
 }
 

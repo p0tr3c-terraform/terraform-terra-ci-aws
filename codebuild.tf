@@ -22,7 +22,8 @@ resource "aws_iam_role_policy" "terra_ci_job" {
 
   policy = templatefile("${path.module}/ci_iam_role_policy.tpl", {
     terraform_ci_role_arn = var.terraform_ci_role_arn,
-    artifact_bucket_arn   = var.create_artifact_bucket ? aws_s3_bucket.terra_ci[0].arn : var.artifact_bucket_arn
+    artifact_bucket_arn   = var.create_artifact_bucket ? aws_s3_bucket.terra_ci[0].arn : var.artifact_bucket_arn,
+    ssm_github_token_arn  = var.ssm_github_token_arn
   })
 }
 
@@ -107,11 +108,7 @@ resource "aws_codebuild_project" "terra_ci_plan" {
       enable_artifacts         = true,
       terra_ci_action          = "plan"
     })
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }
 
@@ -160,12 +157,7 @@ resource "aws_codebuild_project" "terra_ci_apply" {
       enable_artifacts         = true,
       terra_ci_action          = "apply"
     })
-
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }
 
@@ -214,11 +206,7 @@ resource "aws_codebuild_project" "terra_ci_test" {
       enable_artifacts         = true,
       terra_ci_action          = "test"
     })
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }
 
@@ -267,11 +255,7 @@ resource "aws_codebuild_project" "terra_ci_plan_no_artifact" {
       enable_artifacts         = false,
       terra_ci_action          = "plan"
     })
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }
 
@@ -319,11 +303,7 @@ resource "aws_codebuild_project" "terra_ci_apply_no_artifact" {
       terra_ci_action          = "apply"
     })
 
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }
 
@@ -370,10 +350,6 @@ resource "aws_codebuild_project" "terra_ci_test_no_artifact" {
       enable_artifacts         = false,
       terra_ci_action          = "test"
     })
-    git_clone_depth     = 1
-    insecure_ssl        = false
-    report_build_status = false
-    type                = "GITHUB"
-    location            = var.repo_url
+    type = "NO_SOURCE"
   }
 }

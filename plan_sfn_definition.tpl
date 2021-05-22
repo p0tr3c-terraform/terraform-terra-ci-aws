@@ -7,7 +7,6 @@
       "Resource": "arn:aws:states:::codebuild:startBuild.sync",
       "Parameters": {
         "ProjectName": "${ plan_project_name }",
-        "SourceVersion.$": "$.build.sourceversion",
         "EnvironmentVariablesOverride": [
           {
             "Name": "TERRA_CI_BUILD_NAME",

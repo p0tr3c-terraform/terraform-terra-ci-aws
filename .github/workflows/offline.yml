@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-go@v2
         with:
           go-version: '1.15.2'
-      - run: make test_validate
+      - run: make test_terratest_validate
   TestSnykConfig:
     runs-on: ubuntu-latest
     steps:

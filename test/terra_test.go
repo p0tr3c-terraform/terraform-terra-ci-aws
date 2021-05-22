@@ -11,7 +11,7 @@ import (
 	terratestTesting "github.com/gruntwork-io/terratest/modules/testing"
 )
 
-func TestValidateOffline(t *testing.T) {
+func TestValidate(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		EnvVars:      map[string]string{"AWS_DEFAULT_REGION": "eu-west-1", "AWS_REGION": "eu-west-1"},
 		TerraformDir: "../",
@@ -20,7 +20,7 @@ func TestValidateOffline(t *testing.T) {
 	terraform.Validate(t, terraformOptions)
 }
 
-func TestPlanAction(t *testing.T) {
+func TestPlan(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		EnvVars: map[string]string{"AWS_DEFAULT_REGION": "eu-west-1", "AWS_REGION": "eu-west-1"},
 		Vars: map[string]interface{}{
@@ -38,7 +38,7 @@ type NullLogger struct{}
 
 func (n *NullLogger) Logf(t terratestTesting.TestingT, format string, args ...interface{}) {}
 
-func TestSnykCompliance(t *testing.T) {
+func TestSnykPlan(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		EnvVars: map[string]string{"AWS_DEFAULT_REGION": "eu-west-1", "AWS_REGION": "eu-west-1"},
 		Vars: map[string]interface{}{
@@ -65,4 +65,23 @@ func TestSnykCompliance(t *testing.T) {
 		WorkingDir: "../",
 	}
 	shell.RunCommand(t, makeCommand)
+}
+
+func TestGenerateJSONPlan(t *testing.T) {
+	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+		EnvVars: map[string]string{"AWS_DEFAULT_REGION": "eu-west-1", "AWS_REGION": "eu-west-1"},
+		Vars: map[string]interface{}{
+			"repo_url":              "github.com/p0tr3c-terraform/terraform-terra-ci-aws",
+			"terraform_ci_role_arn": "arn:aws:states:eu-west-1:123456789012:iam:role",
+			"ssm_github_token_arn":  "arn:aws:secretsmanager:eu-west-1:123456789012:secret:test",
+		},
+		TerraformDir: "../",
+		PlanFilePath: "tfplan",
+		Logger:       logger.New(&NullLogger{}),
+	})
+	defer os.Remove("../tfplan")
+	planJSONOutput := terraform.InitAndPlanAndShow(t, terraformOptions)
+	if err := ioutil.WriteFile("../tfplan.json", []byte(planJSONOutput), 0644); err != nil {
+		t.Fatalf("failed to write plan output: %s\n", err.Error())
+	}
 }

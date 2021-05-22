@@ -14,7 +14,11 @@ test_compliance: test_snyk
 npmbin := $(shell npm bin)
 snyk := $(npmbin)/snyk
 $(snyk):
-	npm install snyk
+	@npm install snyk
 
 test_snyk: $(snyk)
-	$(snyk) iac test *.tf --severity-threshold=medium
+	@$(snyk) iac test *.tf --severity-threshold=medium
+
+clean:
+	@rm -rf node_modules
+	@rm -rf package-lock.json

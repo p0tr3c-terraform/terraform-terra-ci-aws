@@ -30,11 +30,11 @@ variable "terraform_checksum" {
 }
 
 variable "terra_ci_version" {
-  default = "v0.8.4"
+  default = "v0.9.2"
 }
 
 variable "terra_ci_checksum" {
-  default = "6f2e6ce2c95c6926d15331f1e769bd5ff6c0098a6f11743648451e9ecd88f8dd"
+  default = "92409f1dc25373c1bced59779367cb1491c2de7834ae3fe5f4d31af5da3d987a"
 }
 
 variable "create_artifact_bucket" {
@@ -106,3 +106,8 @@ variable "terratest_iam_role" {
 }
 
 variable "ssm_github_token_arn" {}
+
+variable "extra_secret_envs" {
+  default = {}
+  type    = map
+}

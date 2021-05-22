@@ -23,6 +23,10 @@
           {
             "Name": "TERRA_CI_RESOURCE",
             "Value.$": "$.build.environment.terra_ci_resource"
+          },
+          {
+            "Name": "TERRA_CI_RUN",
+            "Value.$": "$.build.environment.terra_ci_run"
           }
         ]
       },

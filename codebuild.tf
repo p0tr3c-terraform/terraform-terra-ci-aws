@@ -106,7 +106,8 @@ resource "aws_codebuild_project" "terra_ci_plan" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = true,
-      terra_ci_action          = "plan"
+      terra_ci_action          = "plan",
+      extra_secret_envs        = var.extra_secret_envs
     })
     type = "NO_SOURCE"
   }
@@ -155,7 +156,8 @@ resource "aws_codebuild_project" "terra_ci_apply" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = true,
-      terra_ci_action          = "apply"
+      terra_ci_action          = "apply",
+      extra_secret_envs        = var.extra_secret_envs
     })
     type = "NO_SOURCE"
   }
@@ -204,7 +206,8 @@ resource "aws_codebuild_project" "terra_ci_test" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = true,
-      terra_ci_action          = "test"
+      terra_ci_action          = "test",
+      extra_secret_envs        = var.extra_secret_envs
     })
     type = "NO_SOURCE"
   }
@@ -253,7 +256,8 @@ resource "aws_codebuild_project" "terra_ci_plan_no_artifact" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = false,
-      terra_ci_action          = "plan"
+      terra_ci_action          = "plan",
+      extra_secret_envs        = var.extra_secret_envs
     })
     type = "NO_SOURCE"
   }
@@ -300,7 +304,8 @@ resource "aws_codebuild_project" "terra_ci_apply_no_artifact" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = false,
-      terra_ci_action          = "apply"
+      terra_ci_action          = "apply",
+      extra_secret_envs        = var.extra_secret_envs
     })
 
     type = "NO_SOURCE"
@@ -348,7 +353,8 @@ resource "aws_codebuild_project" "terra_ci_test_no_artifact" {
       terra_ci_checksum        = var.terra_ci_checksum,
       terratest_iam_role       = var.terratest_iam_role,
       enable_artifacts         = false,
-      terra_ci_action          = "test"
+      terra_ci_action          = "test",
+      extra_secret_envs        = var.extra_secret_envs
     })
     type = "NO_SOURCE"
   }

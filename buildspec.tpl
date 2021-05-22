@@ -11,6 +11,9 @@ env:
     %{ if terratest_iam_role != "" }TERRATEST_IAM_ROLE: ${ terratest_iam_role }%{ endif }
   secrets-manager:
     GITHUB_TOKEN: "TerraCiGithubToken:GITHUB_TOKEN"
+    %{~ for env_name, env_value in extra_secret_envs ~}
+    ${env_name}: "${ env_value }"
+    %{ endfor }
 phases:
   install:
     commands:
@@ -49,5 +52,5 @@ artifacts:
 %{~ if terra_ci_action == "test" ~}
   build:
     commands:
-      - terra-ci module test --local --path "$${TERRA_CI_RESOURCE}" 
+      - terra-ci module test --local --path "$${TERRA_CI_RESOURCE}" --run "$${TERRA_CI_RUN}" 
 %{ endif }

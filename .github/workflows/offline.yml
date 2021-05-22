@@ -4,6 +4,8 @@ on:
   push:
     paths-ignore:
       - '**.md'
+      - 'Makefile'
+      - '.github/**'
 jobs:
   TestOffline:
     runs-on: ubuntu-latest

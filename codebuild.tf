@@ -20,7 +20,7 @@ EOF
 resource "aws_iam_role_policy" "terra_ci_job" {
   role = aws_iam_role.terra_ci_job.name
 
-  policy = templatefile("${path.module}/ci_iam_role_policy.tpl", {
+  policy = templatefile("${path.module}/templates/ci_iam_role_policy.tpl", {
     terraform_ci_role_arn = var.terraform_ci_role_arn,
     artifact_bucket_arn   = var.create_artifact_bucket ? aws_s3_bucket.terra_ci[0].arn : var.artifact_bucket_arn,
     ssm_github_token_arn  = var.ssm_github_token_arn
@@ -96,7 +96,7 @@ resource "aws_codebuild_project" "terra_ci_plan" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,
@@ -146,7 +146,7 @@ resource "aws_codebuild_project" "terra_ci_apply" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,
@@ -196,7 +196,7 @@ resource "aws_codebuild_project" "terra_ci_test" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,
@@ -246,7 +246,7 @@ resource "aws_codebuild_project" "terra_ci_plan_no_artifact" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,
@@ -294,7 +294,7 @@ resource "aws_codebuild_project" "terra_ci_apply_no_artifact" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,
@@ -343,7 +343,7 @@ resource "aws_codebuild_project" "terra_ci_test_no_artifact" {
   }
 
   source {
-    buildspec = templatefile("${path.module}/buildspec.tpl", {
+    buildspec = templatefile("${path.module}/templates/buildspec.tpl", {
       default_tfplan_file_name = var.default_tfplan_file_name,
       terragrunt_version       = var.terragrunt_version,
       terragrunt_checksum      = var.terragrunt_checksum,

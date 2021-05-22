@@ -1,0 +1,25 @@
+{
+  "Comment": "Run Terratest Jobs",
+  "StartAt": "Test",
+  "States": {
+    "Test": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::codebuild:startBuild.sync",
+      "Parameters": {
+        "ProjectName": "${ test_project_name }",
+        "EnvironmentVariablesOverride": [
+          {
+            "Name": "TERRA_CI_BUILD_NAME",
+            "Value.$": "$$.Execution.Name"
+          },
+          {
+            "Name": "TERRA_CI_RESOURCE",
+            "Value.$": "$.build.environment.terra_ci_resource"
+          }
+        ]
+      },
+      "ResultPath": "$.taskresult",
+      "End": true
+    }
+  }
+}

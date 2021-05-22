@@ -2,7 +2,6 @@ CURRENT_DIR := $(shell pwd)
 PATH  := $(PATH):$(CURRENT_DIR)/node_modules/.bin:$(CURRENT_DIR)
 SHELL := env PATH=$(PATH) /bin/bash
 
-
 test_terratest_validate:
 	@cd test; CGO_ENABLED=0 go test -v -run "TestValidate" -timeout 5m
 

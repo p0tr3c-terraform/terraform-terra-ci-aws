@@ -9,7 +9,10 @@ test_offline: test_terratest_offline
 test_terratest_offline:
 	@cd test; CGO_ENABLED=0 go test -v -run "Test.*Offline" -timeout 5m
 
-test_compliance: test_snyk
+test_terratest_plan:
+	@cd test; CGO_ENABLED=0 go test -v -run "TestPlan" -timeout 5m
+
+test_compliance: test_snyk test_snyk_plan
 
 npmbin := $(shell npm bin)
 snyk := $(npmbin)/snyk
@@ -18,6 +21,9 @@ $(snyk):
 
 test_snyk: $(snyk)
 	@$(snyk) iac test *.tf --severity-threshold=medium
+
+test_snyk_plan: $(snyk)
+	@$(snyk) iac test tfplan.json --severity-threshold=medium
 
 clean:
 	@rm -rf node_modules

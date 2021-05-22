@@ -12,5 +12,5 @@ runs:
       run: |
         wget -q "https://github.com/p0tr3c-terraform/terra-ci/releases/download/${{ inputs.version }}/terra-ci-linux-amd"
         echo -n "${{ inputs.checksum }}  terra-ci-linux-amd" | sha256sum --check --status
-        chmod +x ./terra-ci-linux-amd
+        mv ./terra-ci-linux-amd ./terra-ci && chmod +x ./terra-ci
       shell: bash

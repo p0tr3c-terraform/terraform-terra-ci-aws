@@ -28,3 +28,4 @@ test_snyk_plan: $(snyk)
 clean:
 	@rm -rf node_modules
 	@rm -rf package-lock.json
+	@rm -rf .terraform*

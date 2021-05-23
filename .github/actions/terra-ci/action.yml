@@ -1,10 +1,10 @@
 inputs:
   version: 
     description: 'terra-ci release version'
-    default: 'v0.9.1'
+    default: 'v0.9.2'
   checksum:
     description: 'sha256 of release binary'
-    default: '92409f1dc25373c1bced59779367cb1491c2de7834ae3fe5f4d31af5da3d987a'
+    default: '2897c9b755379e47d2658fb23c8f95eb93a21e77e82b8014c4e1461bd64f7dbe'
 runs:
   using: "composite"
   steps: 

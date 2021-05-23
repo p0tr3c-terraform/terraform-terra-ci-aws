@@ -30,7 +30,7 @@ variable "terraform_checksum" {
 }
 
 variable "terra_ci_version" {
-  default = "v0.9.2"
+  default = "v0.9.1"
 }
 
 variable "terra_ci_checksum" {

@@ -46,7 +46,7 @@ phases:
       - terra-ci workspace plan --local --path "$${TERRA_CI_RESOURCE}" --out "$(pwd)/$${TFPLAN_NAME}"
 artifacts:
   files:
-    - "$${TFPLAN_NAME}"
+    - "$${TERRA_CI_LOCATION}/$${TFPLAN_NAME}"
   name: $TERRA_CI_BUILD_NAME
 %{ endif }
 %{~ if terra_ci_action == "test" ~}

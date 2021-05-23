@@ -18,6 +18,7 @@
           }
         ]
       },
+      "ResultPath": "$.taskresult",
       "End": true
     }
   }

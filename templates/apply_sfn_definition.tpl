@@ -41,6 +41,7 @@
           }
         ]
       },
+      "ResultPath": "$.taskresult",
       "End": true
     }
   }
